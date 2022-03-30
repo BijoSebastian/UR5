@@ -61,7 +61,7 @@ cd ursim-3.15.7.xxxxx
 ./install.sh
 ```
 
-- You may recieve an error stating 
+- You may receive an error stating 
 ```
 dpkg:error processing package runit (--configure):
 ```
@@ -83,7 +83,7 @@ dpkg:error processing package runit (--configure):
 
 - For using the ur_robot_driver with a real robot or a simulated robot you need to install the externalcontrol-1.0.5.urcap in the polyscope (teaching pendent on the real robot or simulator itself for simulated robot) which can be found [here](https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/ur_robot_driver/resources/externalcontrol-1.0.5.urcap). 
 
-- Copy the downloaded file (do noot extract it)
+- Copy the downloaded file (do not extract it)
  into the ~/ursim-3.15.7.xxx/programs.UR5 folder 
 
 - Launch simulator again and follow instructions below:
@@ -92,13 +92,13 @@ dpkg:error processing package runit (--configure):
 
     - If you have setup the e-Series simulator follow instructions [here](https://github.com/UniversalRobots/Universal_Robots_ROS_Driver/blob/master/README.md#setting-up-a-ur-robot-for-ur_robot_driver) 
 
-    - Note that the setup will by default have the remote host IP set to 192.168.56.1 and the port set to 50002. Keep these unchanged we will see where these adresses come from in the next step.
+    - Note that the setup will by default have the remote host IP set to 192.168.56.1 and the port set to 50002. Keep these unchanged we will see where these addresses come from in the next step.
 
 - Save the new external control program for ease of use later
 
 ### Setup communication between the host PC and the virtual machine for sending commands to the simulator
 
-- Shutdown the virtul machine 
+- Shutdown the virtual machine 
 
 - Within VirtualBox main window, click File > Host Network Manager. A dialog will open in which you can click the create button which will add an entry to the list (vboxnet0). It should automatically get the static IP address 192.168.56.1. If not, set it up manually in the dialog. Once done, you can close the dialog again to go back to your VirtualBox main window. 
 
@@ -115,7 +115,7 @@ dpkg:error processing package runit (--configure):
 -On the host machine, in a new terminal:
 
 ```
-# activate the workspace (it would be usefull to create an alias for this )
+# activate the workspace (it would be useful to create an alias for this )
 
 source ~/Projects/ur_ws/devel/setup.bash
 
@@ -150,13 +150,8 @@ rosrun ur_robot_driver test_move
 # Control the simulated robot using MoveIt!
 
 - For controlling the robot using MoveIt! 
-firts install the joint trajectory controller
 
-```
-sudo apt install ros-noetic-rqt-joint-trajectory-controller
-```
-
-Start the following three launch files (Each in a separate terminal window, remember to source the ur workspace in each new terminal):
+Start the following three launch files (Each in a separate terminal window, remember to source the ur_ws workspace in each new terminal):
 
 ```
 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.56.101
@@ -178,14 +173,14 @@ roslaunch ur5e_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5e
 
 - Power up the robot
 - Navigate to Setup Robot / Setup Network
-- Keep the robot in static address mode and provide an IP address (eg: 192.168.1.25)
+- Keep the robot in static address mode and provide an IP address (e.g. 192.168.1.25)
 - Input Netmask as 255.255.255.0, Gateway and DNS server as 0.0.0.0
 - Connect your desktop PC to the robot via a direct LAN cable connection
-- On the PC setup the ethernet connection to be static IP and provide an IP address (eg: 192.168.1.50)
+- On the PC setup the ethernet connection to be static IP and provide an IP address (e.g. 192.168.1.50)
 - Input Netmask as 255.255.255.0, Gateway and DNS server as 0.0.0.0
 - Wait a few seconds for the network to setup and try pinging the robot from your PC
 - You should now be good to use the above mentioned direct control or Move-it based planning with the following minor modifications:
-    - Provide the remote PC IP in the external control mode on the polyscope (teaching pendent)
+    - Provide the remote PC IP in the external control mode on the Polyscope (teaching pendent)
     -  When you launch the ur_robot_driver on the host PC provide the correct robot_ip
 
 # Result
