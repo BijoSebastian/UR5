@@ -190,4 +190,4 @@ roslaunch ur5e_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5e
 
 # Result
 
-![First run](https://github.com/BijoSebastian/UR5/Results/Project1.gif)
+![First run](https://github.com/BijoSebastian/UR5/blob/main/Results/Project1.gif)
