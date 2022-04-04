@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: ""
+    relative_path: /home/bs/Projects/ur_ws/src/UR5/description/arm.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/arm.srdf
+  CONFIG:
+    author_name: ASL
+    author_email: ASL@IITM.ac.in
+    generated_timestamp: 1649080104
