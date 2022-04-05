@@ -19,6 +19,13 @@ git clone https://github.com/ros-industrial/robotiq src/robotiq
 ```
 This repository is no longer maintained as of April, 2022 and can lead to a broken workspace if you try to build it as such. For now I usggets removing anything that is not needed from the cloned repo. We only need the folders named _robotiq_3f_gripper_visualization_ and _robotiq_ from the repository.
 
+In addition, it would be helpfull to disable all the joints on the gripper other than the base joints on each finger. To do this edit the following files:
+
+```
+robotiq_3f_gripper_visualization/cfg/robotiq-3f-gripper_articulated_macro.xacro
+robotiq_3f_gripper_visualization/cfg/robotiq-3f-gripper_finger_articulated_macro.xacro
+```
+
 Once you have removed the other folders, proceed with installing dependencies and bulding the workspace
 
 ```
@@ -50,8 +57,8 @@ roslaunch moveit_setup_assistant setup_assistant.launch
 - Follow the steps mentioned [here](https://ros-planning.github.io/moveit_tutorials/doc/setup_assistant/setup_assistant_tutorial.html) to configure the robot. Following are some things to note:
 
     - Add a virtual joint between the ur5e_base_link and world
-    - Add a planning group for the arm with kdl_kinematics_plugin/KDLKinematicsPlugin as Kinematic Solver as the planner. Add kinematic chain to the planning group with *base_link* as Base link and gripper_palm as Tip link
-    - Add a planning group for the gripper with no solver attached. Add all of the gripper joints to this group
+    - Add a planning group for the arm with kdl_kinematics_plugin/KDLKinematicsPlugin as Kinematic Solver as the planner. Add kinematic chain to the planning group with *base_link* as Base link and tool0 as Tip link
+    - Add a planning group for the gripper with no solver attached. Add only the base joints of each finger onn the gripper to this group
     - Define a home pose with the robot upright
     - Define open and close pose for the gripper
     - Do Auto Add FollowJointsTrajctory Controllers For Each Planning Group, we will change this later
@@ -60,6 +67,6 @@ roslaunch moveit_setup_assistant setup_assistant.launch
 
 - If the planner takes too long to plan that is primarily due to the fact that the new gripper introduces a lot more links which needs to be taken into account during the plannig phase.
 
-    - A solution here would be to simplify the gripper meaning do not use the articulated gripper use the unarticulaed one with the eimpler joints and so.
+    - A solution here would be to simplify the gripper by using the unarticulaed finger modles 
 
 # note to self for later the table and cylinder in the wolrd coudl be added directly by editing the xacro file and adding in the corresponding urdf for the same. 

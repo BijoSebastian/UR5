@@ -9,7 +9,7 @@
    
     <!-- attach eef to ur5 model -->
     <joint name="gripper_joint" type="fixed">
-      <parent link="wrist_3_link" />
+      <parent link="tool0" />
       <child link = "gripper_palm" />
       <origin xyz="0.0 0.0 0.057" rpy="${pi/2} 0.0 0.0" />
     </joint>

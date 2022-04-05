@@ -167,6 +167,8 @@ roslaunch ur5e_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur5e
 
 - By clicking on the Plan button in the left panel a path from the current pose to the target pose is calculated. On success, it gets animated using a semi-transparent version of the robot
 
+- Remeber to select the Collision-aware IK and Use cartesian paths option for smooth movements 
+
 - By clicking on the Execute button in the left panel the robot executes the planned motion
 
 # Setting up above modes of control to work with the real robot
