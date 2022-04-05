@@ -1,9 +1,9 @@
 <package>
 
-  <name>ur5_gripper_moveit_config</name>
+  <name>ur_robotiq_moveit_config</name>
   <version>0.3.0</version>
   <description>
-     An automatically generated package with all the configuration and launch files for using the arm with the MoveIt Motion Planning Framework
+     An automatically generated package with all the configuration and launch files for using the ur_robot_with_gripper with the MoveIt Motion Planning Framework
   </description>
   <author email="ASL@IITM.ac.in">ASL</author>
   <maintainer email="ASL@IITM.ac.in">ASL</maintainer>

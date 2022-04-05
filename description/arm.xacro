@@ -1,17 +1,25 @@
 <?xml version="1.0"?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="arm" > 
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="ur_robot_with_gripper" > 
 
   <!-- include macro definitions -->
   <xacro:include filename="$(find ur_description)/urdf/inc/ur5e_macro.xacro"/>
-  <xacro:ur5e_robot prefix=""/>
   <xacro:include filename="$(find robotiq_3f_gripper_visualization)/cfg/robotiq-3f-gripper_articulated_macro.xacro"/>
+  
+  <!-- Create a new macro to link both -->
+  <xacro:macro name="ur_robotiq" params="prefix">
+  
+  <!-- instantiate both -->
+  <xacro:ur5e_robot prefix=""/>
   <xacro:robotiq-3f-gripper_articulated prefix="gripper_"/>
-   
-    <!-- attach eef to ur5 model -->
+  
+  <!-- attach griper to ur5 model -->
     <joint name="gripper_joint" type="fixed">
       <parent link="tool0" />
       <child link = "gripper_palm" />
       <origin xyz="0.0 0.0 0.057" rpy="${pi/2} 0.0 0.0" />
     </joint>
-
+  </xacro:macro>
+  
+  <!-- Now instantiate above macro -->
+ <xacro:ur_robotiq prefix=""/>
 </robot>
