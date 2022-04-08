@@ -110,7 +110,7 @@ dpkg:error processing package runit (--configure):
 
 # Starting the driver and visualizing the simulated robot in RViz
 
-- Within the virtual machine launch the simulator. Make sure that it is running, as otherwise no joint data will be sent.
+- Within the virtual machine launch the simulator. Make sure that it is running the externa control program you saved earlier, as otherwise no joint data will be sent.
 
 -On the host machine, in a new terminal:
 
