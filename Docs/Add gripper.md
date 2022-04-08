@@ -22,8 +22,28 @@ This repository is no longer maintained as of April, 2022 and can lead to a brok
 In addition, it would be helpful to disable all the joints on the gripper other than the base joints on each finger. To do this edit the following files:
 
 ```
+#In file
 robotiq_3f_gripper_visualization/cfg/robotiq-3f-gripper_articulated_macro.xacro
+#change line 44 to
+<joint name="${prefix}palm_finger_1_joint" type="fixed">
+#and line 51 to 
+<joint name="${prefix}palm_finger_2_joint" type="fixed">
+
+#In file
 robotiq_3f_gripper_visualization/cfg/robotiq-3f-gripper_finger_articulated_macro.xacro
+#change line 115 to 
+<joint name="${prefix}joint_2" type="fixed">
+#change line 122 to
+<joint name="${prefix}joint_3" type="fixed">
+
+#In file 
+robotiq/package.xml
+#Remove the folowing lines
+<exec_depend>robotiq_modbus_tcp</exec_depend>
+<exec_depend>robotiq_3f_gripper_control</exec_depend>
+<exec_depend>robotiq_2f_gripper_control</exec_depend>
+<exec_depend>robotiq_ft_sensor</exec_depend>
+#since we only need the visualization to be built
 ```
 
 Once you have removed the other folders, proceed with installing dependencies and building the workspace
@@ -43,12 +63,15 @@ catkin_make
 
 source devel/setup.bash
 ```
+The workspace should build without any errors
 
-## Configuring the robot using MoveIt setup assistant
+## Configuring the robot with gripper using MoveIt setup assistant 
 
 We will be using the MoveIt setup assistant for generating the SRDF file for our robot. Follow the steps below:
 
-- The Setup assistant will need a top level xacro that instantiates a UR5 model and a 3F gripper model and then defines the connection between the two. Use the arm.xacro file provided [here](https://github.com/BijoSebastian/UR5/blob/main/description/arm.xacro). This method could be used to add a table or a workpiece into the planning scenario by editing the xacro file and adding in the corresponding urdf files.
+- The Setup assistant will need a top level xacro that instantiates a UR5 model and a 3F gripper model and then defines the connection between the two in the form of a macro. The new macro should then be instantiated. 
+
+- Use the arm.xacro file provided [here](https://github.com/BijoSebastian/UR5/blob/main/description/arm.xacro). This method will be used later to add a table or a workpiece into the planning scenario by editing the xacro file and adding in the corresponding urdf files.
 
 - Launch the setup assistant (Ensure that you have sourced the workspace before doing this)
 ```
@@ -62,10 +85,40 @@ roslaunch moveit_setup_assistant setup_assistant.launch
     - Define a home pose with the robot upright
     - Define open and close pose for the gripper
     - Do Auto Add FollowJointsTrajctory Controllers For Each Planning Group, we will change this later
+    - Giev the name *ur_robotiq_moveit_config* for the config to be generated
 
-- With the default controllers in the Moveit config generation somehow the planner fails continously. Solution was to edit the *ros_controllers.yaml* file in the config folder manually to match the file under *fmauch_universal_robot/ur5e_moveit_config/config*, with this change the planner seems to work fine
+- With the default controllers in the Moveit config generation somehow the planner fails repeatedly. Solution was to manually edit the *ros_controllers.yaml* file in the config folder (the one genrated by MoveIt) to match the file under *fmauch_universal_robot/ur5e_moveit_config/config*. With this change the planner seems to work fine
 
 - If the planner takes too long to plan that is primarily due to the fact that the new gripper introduces a lot more links which needs to be taken into account during the planning phase.
 
     - A solution here would be to simplify the gripper by using the unarticulated finger model 
+    
+- With this you should be good to launch the panning group along with RViz to test out the planning capabilities
 
+```
+roslaunch ur_robotiq_moveit_config demo.launch
+```
+
+## To make the above setup work with the URSim and the real robot
+
+- The generated MoveIt config will be missing *ur_robotiq_moveit_config/launch/ur_robotiq_moveit_planning_execution.launch*. Copy this file from the *fmauch_universal_robot/ur5e_moveit_config/launch/ur5e_moveit_planning_execution.launch* and make the following changes
+```
+#on line 9
+<include file="$(find ur_robotiq_moveit_config)/launch/move_group.launch">
+```
+ We need MoveIt to load the new robot description we generated, so make the following changes:
+ ```
+ #In file
+ ur_robotiq_moveit_config/launch/move_group.launch
+ #Change line 40 to 
+ <arg name="load_robot_description" default="true" />
+ #In file 
+ ur_robotiq_moveit_config/launch/planning_context.launch
+ #Change line 3 to 
+ <arg name="load_robot_description" default="true"/> 
+ ```
+ 
+ 
+ 
+ 
+ 
