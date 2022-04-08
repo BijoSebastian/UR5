@@ -118,7 +118,17 @@ roslaunch ur_robotiq_moveit_config demo.launch
  <arg name="load_robot_description" default="true"/> 
  ```
  
- 
- 
+- Follow instrcutions from the getting started to launch the URSim simulator and run the external control program
+
+- With the simulator running lauch the following commands on the host system (Each in a separate terminal window, with the workspace sourced)
+```
+roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.56.101
+
+roslaunch ur_robotiq_moveit_config ur_robotiq_moveit_planning_execution.launch 
+
+roslaunch ur_robotiq_moveit_config moveit_rviz.launch rviz_config:=$(rospack find ur_robotiq_moveit_config)/launch/moveit.rviz
+```
+
+You should be able to use the RViz setup to plan and send commands to the simulator.
  
  
