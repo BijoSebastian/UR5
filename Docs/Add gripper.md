@@ -131,4 +131,6 @@ roslaunch ur_robotiq_moveit_config moveit_rviz.launch rviz_config:=$(rospack fin
 
 You should be able to use the RViz setup to plan and send commands to the simulator.
  
- 
+### The same setup as above could be used for using the new planning group with the actual robot. 
+
+- Follow instructions from the getting started and remember to use the new ur_robotiq_moveit_config commands used above instead of the ones provided in  getting started
