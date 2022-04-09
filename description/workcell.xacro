@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="workcell" > 
+
+  <!-- include macro definitions -->
+  <xacro:include filename="$(find ur_description)/urdf/inc/ur5e_macro.xacro"/>
+  <xacro:include filename="$(find robotiq_3f_gripper_visualization)/cfg/robotiq-3f-gripper_articulated_macro.xacro"/>
+  
+  <!-- Create a new macro to add the necessary elements -->
+  <xacro:macro name="ur_robotiq" params="prefix">
+  
+  <!-- Instantiate both UR5 and gripper -->
+  <xacro:ur5e_robot prefix=""/>
+  <xacro:robotiq-3f-gripper_articulated prefix="gripper_"/>
+  
+  <!-- Attach griper to ur5 model -->
+  <joint name="gripper_joint" type="fixed">
+    <parent link="tool0" />
+    <child link = "gripper_palm" />
+      <origin xyz="0.0 0.0 0.057" rpy="${pi/2} 0.0 0.0" />
+  </joint>
+    
+  <!-- Create a table --> 
+  <link name="table">
+    <visual>
+      <geometry>
+        <box size="2.0 2.0 0.05"/>
+      </geometry>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="2.0 2.0 0.05"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <!-- Attach robot to table -->
+  <joint name="table_to_robot" type="fixed">
+    <parent link="table"/>
+    <child link="base_link"/>
+      <origin xyz="0 0 0.025" rpy="0 0 0"/>
+  </joint>
+
+  </xacro:macro>
+  
+  <!-- Now instantiate above macro -->
+ <xacro:ur_robotiq prefix=""/>
+</robot>
