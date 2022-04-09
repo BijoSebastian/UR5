@@ -1,8 +1,8 @@
-# Instructions on adding 3 finger Robotiq gripper to the UR5 setup for Moveit
+# Instructions on adding 3 finger Robotiq gripper to the UR5 setup for MoveIt
 
 The following set of instructions assume you have already completed the [Getting Started](https://github.com/BijoSebastian/UR5/blob/main/Docs/Getting%20started.md) instructions and have the setup working
 
-Notice that the previous setup did not include any gripper for the UR5 neither in the simulator nor in the Moveit based planning considerations. The following set of instructions will guide you in getting the [3 finger Robotiq gripper](https://robotiq.com/products/3-finger-adaptive-robot-gripper) added to your setup.
+Notice that the previous setup did not include any gripper for the UR5 neither in the simulator nor in the MoveIt based planning considerations. The following set of instructions will guide you in getting the [3 finger Robotiq gripper](https://robotiq.com/products/3-finger-adaptive-robot-gripper) added to your setup.
 
 ## Getting the Robotiq 3F model
 
@@ -38,7 +38,7 @@ robotiq_3f_gripper_visualization/cfg/robotiq-3f-gripper_finger_articulated_macro
 
 #In file 
 robotiq/package.xml
-#Remove the folowing lines
+#Remove the following lines
 <exec_depend>robotiq_modbus_tcp</exec_depend>
 <exec_depend>robotiq_3f_gripper_control</exec_depend>
 <exec_depend>robotiq_2f_gripper_control</exec_depend>
@@ -59,7 +59,7 @@ rosdep install --from-paths src --ignore-src -y
 
 catkin_make
 
-# activate the workspace (ie: source it)
+# activate the workspace (source it)
 
 source devel/setup.bash
 ```
@@ -100,9 +100,9 @@ roslaunch ur_workcell_moveit_config demo.launch
 
 ## <mark> Steps to make the above setup work with the URSim and the real robot </mark>
 
-- With the default controllers in the Moveit config generation somehow the planner fails repeatedly. Solution was to manually edit the *ros_controllers.yaml* file in the config folder (*.../ur_workcell_moveit_config/config/ros_controllers.yaml*) to match the file under *fmauch_universal_robot/ur5e_moveit_config/config*. 
+- With the default controllers in the MoveIt config generation somehow the planner fails repeatedly. Solution was to manually edit the *ros_controllers.yaml* file in the config folder (*.../ur_workcell_moveit_config/config/ros_controllers.yaml*) to match the file under *fmauch_universal_robot/ur5e_moveit_config/config*. 
 
-- The generated MoveIt config will be missing *ur_workcell_moveit_config/launch/ur_workcell_moveit_planning_execution.launch*. Copy this file from the *fmauch_universal_robot/ur5e_moveit_config/launch/ur5e_moveit_planning_execution.launch*, renam accordingly and make the following changes
+- The generated MoveIt config will be missing *ur_workcell_moveit_config/launch/ur_workcell_moveit_planning_execution.launch*. Copy this file from the *fmauch_universal_robot/ur5e_moveit_config/launch/ur5e_moveit_planning_execution.launch*, rename accordingly and make the following changes
 ```
 #on line 9
 <include file="$(find ur_workcell_moveit_config)/launch/move_group.launch">
@@ -119,9 +119,9 @@ roslaunch ur_workcell_moveit_config demo.launch
  <arg name="load_robot_description" default="true"/> 
  ```
  
-- Follow instrcutions from the getting started to launch the URSim simulator and run the external control program
+- Follow instructions from the getting started to launch the URSim simulator and run the external control program
 
-- With the simulator running lauch the following commands on the host system (Each in a separate terminal window, with the workspace sourced)
+- With the simulator running launch the following commands on the host system (Each in a separate terminal window, with the workspace sourced)
 ```
 roslaunch ur_robot_driver ur5e_bringup.launch robot_ip:=192.168.56.101
 
@@ -135,3 +135,7 @@ You should be able to use the RViz setup to plan and send commands to the simula
 ### The same setup as above could be used for using the new planning group with the actual robot. 
 
 - Follow instructions from the getting started and remember to use the new ur_workcell_moveit_config commands used above instead of the ones provided in  getting started
+
+### For later
+
+- It is possible that the manipulator may not reach the planned pose when executing motion plans. This could be caused due to the fact that manipulator plan group uses the base_link as the origin where as in reality the base link is 0.025 above the origin of the world along z axis (Assuming the world origin coincides with the table/box origin)

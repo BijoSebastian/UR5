@@ -29,7 +29,7 @@ rosdep install --from-paths src --ignore-src -y
 
 catkin_make
 
-# activate the workspace (ie: source it)
+# activate the workspace (source it)
 
 source devel/setup.bash
 ```
