@@ -32,3 +32,61 @@ rostopic list
 rosrun rviz rviz 
 ```
 Add a display for  image type and subscribe to the topic */camera/image_raw* to view the image being published
+
+## Caliberating the camera
+
+- Now that we have the camera publishing images under the topic */camera/image_raw*, next step would be to perfom camera caliberation. Follow instructions [here](https://wiki.ros.org/camera_calibration/Tutorials/MonocularCalibration) to perform the caliberation 
+
+- MRPT provides a good checkerboard image that can be printed on A4 for the caliberation purpose, you can find the image [here](https://www.mrpt.org/downloads/camera-calibration-checker-board_9x7.pdf)
+
+- The resulting caliberation data and files can be found in the Backup folder of this repository
+
+- For publishing the rectified camera images use [image_proc](http://wiki.ros.org/image_proc). Assuming the images are being published under the camera namesapce excute the following in a new terminal:
+```
+ROS_NAMESPACE=camera rosrun image_proc image_proc
+```
+
+- You should be able to see the rectified images being published under the topic */camera/image_rect*
+
+## Using April tag to detect pose of objects
+
+- With the caliberated camera it is possible to detect the position and oreintation of objects fitted with April tag.
+
+- Follow the Quick start instrutcions [here](https://github.com/AprilRobotics/apriltag_ros) to download and build the April tag repository. 
+
+    - Note: When setting up the package in the same workspace you will have to use *catkin_make_isolated* as *catkin_make* will not work with this package.
+
+    - If you used catkin_make_isolated to build the package then you will have to source the devel_isolated folder to launch any of the April tag packages and nodes. To do this execute the following command in a new terminal before launching the April tag functionalities:
+
+    ```
+    source catkin_ws/devel_isolated/setup.bash
+    ```
+- Once the package is built you can use the continious detcetion functionality of April tags to detect pose of one or more tags in a continous video stream. Follow instructions [here](http://wiki.ros.org/apriltag_ros/Tutorials/Detection%20in%20a%20video%20stream) following are somethings to note or change:
+
+    - You will have to edit the settings.yaml and tags.yaml file under *~/catkin_ws/src/apriltag_ros/apriltag_ros/config*.
+    
+    - Provide the tag_family details under settings.yaml. I have used the default tag36h11
+    
+    - Provide the id and size of the tag under standalone_tags field in the tags.yaml file. I have used tag id 6 with a size of 80 mm as:
+
+    ```
+    standalone_tags:
+    [
+        {id: 6, size: 0.08}
+    ]
+    ```
+    - You can find the tag images under 36h11 family in the Backup folder of this repository.
+
+    - Finally edit the continous_detection launch file located at *~/catkin_ws/src/apriltag_ros/apriltag_ros/launch* to provide the correct name for the camera
+    ```
+    #Change line 4 to 
+     <arg name="camera_name" default="/camera" />
+    ```
+    - You should now be able to launch the continous detcetion functionality as follows (Rememebr to source the devel_isolatated/setup.bash first):
+    ```
+    roslaunch apriltag_ros continuous_detection.launch
+    ```
+
+    - The results of the tag dection can be viewed on the topic */tag_detections_image* or on the topic */tf*. Altenraitively you can turn off the */tag_detections_image* in the continous_detection launch  file to reduce the load on the system.
+
+    
