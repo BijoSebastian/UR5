@@ -4,11 +4,11 @@
 
 - Camera model used: UI-3060CP-C-HQ Rev.2
 
-- Download the IDS Software Suite from [here](https://en.ids-imaging.com/downloads.html) for the corresponding camera hardware. Remmeber to choose Linux 64 bit under the operating system option. You will be required to create a free account with IDS for accessing the software. I used the archive file installation option
+- Download the IDS Software Suite from [here](https://en.ids-imaging.com/downloads.html) for the corresponding camera hardware. Remember to choose Linux 64 bit under the operating system option. You will be required to create a free account with IDS for accessing the software. I used the archive file installation option
 
-- Follow the instructions [here](https://en.ids-imaging.com/files/downloads/ids-software-suite/readme/readme-ids-software-suite-linux-4.95.2_EN.html#distributions) for extracting and installing the downloaded package. Remember to scroll down to the Archive set of instructions under the Installation section. I used the "run" script and no aditional software packages were needed on my Ubunutu-20.04 machine.
+- Follow the instructions [here](https://en.ids-imaging.com/files/downloads/ids-software-suite/readme/readme-ids-software-suite-linux-4.95.2_EN.html#distributions) for extracting and installing the downloaded package. Remember to scroll down to the Archive set of instructions under the Installation section. I used the "run" script and no additional software packages were needed on my Ubunutu-20.04 machine.
 
-- Finally connect the camer to your machine thorugh USB/etchernet and the camera should have a solid green light, if it is recognized and working well. 
+- Finally connect the camera to your machine through USB/ethernet and the camera should have a solid green light, if it is recognized and working well. 
 
 
 ## Setting up the ueye_cam ROS package
