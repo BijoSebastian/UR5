@@ -19,9 +19,12 @@
 
 - With the camera connected execute the following commands in a terminal:
 
+```
 #Source the ueye_cam ws
 source ~/Projects/ueye_ws/devel/setup.bash
+
 roslaunch ueye_cam rgb8.launch
+```
 
 - To see all the topics being published, in a new terminal execute:
 ```
