@@ -139,3 +139,4 @@ You should be able to use the RViz setup to plan and send commands to the simula
 ### For later
 
 - It is possible that the manipulator may not reach the planned pose when executing motion plans. This could be caused due to the fact that manipulator plan group uses the base_link as the origin where as in reality the base link is 0.025 above the origin of the world along z axis (Assuming the world origin coincides with the table/box origin)
+-  Robotiq gripper ROS support: https://blog.robotiq.com/how-to-get-more-from-the-3-finger-gripper-with-ros
