@@ -9,28 +9,45 @@ int main(int argc, char** argv)
   ros::NodeHandle node;
 
   tf2_ros::TransformBroadcaster br;
-  geometry_msgs::TransformStamped transformStamped;
+  geometry_msgs::TransformStamped transformStamped1;
+  geometry_msgs::TransformStamped transformStamped2;
+  
 
   ros::Rate rate(10.0);
-  transformStamped.header.stamp = ros::Time::now();
-  transformStamped.header.frame_id = "world";
-  transformStamped.child_frame_id = "camera";
 
-  tf2::Quaternion q_orig(-0.0146, 0.99820, 0.04018, -0.04189), q_new;
-  q_new = q_orig.inverse();
+  transformStamped1.header.frame_id = "camera";
+  transformStamped1.child_frame_id = "table";
   
+  transformStamped2.header.frame_id = "table";
+  transformStamped2.child_frame_id = "base_link";
+
+  
+  tf2::Quaternion q(0.999, 0.027, 0.036, -0.012);
+  tf2::Quaternion q_rot;
+  q_rot.setRPY(0, 0, -3.14/2.0);
+  tf2::Quaternion q_new = q_rot*q;
   while (node.ok())
   {  
-    transformStamped.header.stamp = ros::Time::now();
-    transformStamped.transform.translation.x = 0.326;
-    transformStamped.transform.translation.y = 0.265;
-    transformStamped.transform.translation.z = 1.915;
-    transformStamped.transform.rotation.x = q_new.x();
-    transformStamped.transform.rotation.y = q_new.y();
-    transformStamped.transform.rotation.z = q_new.z();
-    transformStamped.transform.rotation.w = q_new.w();
+    transformStamped1.header.stamp = ros::Time::now();
+    transformStamped1.transform.translation.x = 0.272;
+    transformStamped1.transform.translation.y = 0.177;
+    transformStamped1.transform.translation.z = 1.915;
+    transformStamped1.transform.rotation.x = q_new.x();
+    transformStamped1.transform.rotation.y = q_new.y();
+    transformStamped1.transform.rotation.z = q_new.z();
+    transformStamped1.transform.rotation.w = q_new.w();
 
-    br.sendTransform(transformStamped);
+    transformStamped2.header.stamp = ros::Time::now();
+    transformStamped2.transform.translation.x = 0.0;
+    transformStamped2.transform.translation.y = 0.0;
+    transformStamped2.transform.translation.z = 0.025;
+    transformStamped2.transform.rotation.x = 0.0;
+    transformStamped2.transform.rotation.y = 0.0;
+    transformStamped2.transform.rotation.z = 0.0;
+    transformStamped2.transform.rotation.w = 1.0;
+
+    br.sendTransform(transformStamped1);
+    br.sendTransform(transformStamped2);
 
     rate.sleep();
   }

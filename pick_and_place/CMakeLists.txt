@@ -57,6 +57,7 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/pick_and_place_node.cpp)
 add_executable(pick_place_tutorial src/pick_place_tutorial.cpp)
 add_executable(tf_broadcaster src/tf_broadcaster.cpp)
+add_executable(pick_place_tf src/pick_place_tf.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -65,6 +66,7 @@ add_executable(tf_broadcaster src/tf_broadcaster.cpp)
 # set_target_properties(${PROJECT_NAME}_node PROPERTIES OUTPUT_NAME node PREFIX "")
 target_link_libraries(pick_place_tutorial ${catkin_LIBRARIES} ${Boost_LIBRARIES})
 target_link_libraries(tf_broadcaster ${catkin_LIBRARIES})
+target_link_libraries(pick_place_tf ${catkin_LIBRARIES})
 
 install(TARGETS pick_place_tutorial DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})
 
