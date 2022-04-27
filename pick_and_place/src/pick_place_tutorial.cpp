@@ -21,7 +21,11 @@ void execute_motion(moveit::planning_interface::MoveGroupInterface &move_group_i
   ROS_INFO_NAMED("tutorial", "Planning status:: %s", success ? "Planning succesfull" : "FAILED");
 
   if(success)
+  {
     move_group_interface.move();
+    ros::Duration(2.0).sleep();
+  }
+
 }
 
 int main(int argc, char** argv)
@@ -41,11 +45,39 @@ int main(int argc, char** argv)
   static const std::string PLANNING_GROUP_ARM = "manipulator";
   static const std::string PLANNING_GROUP_GRIPPER = "gripper";
 
-  // The :planning_interface:`MoveGroupInterface` class can be easily
+  // The planning_interface:`MoveGroupInterface` class can be easily
   // setup using just the name of the planning group you would like to control and plan for.
   moveit::planning_interface::MoveGroupInterface move_group_interface_arm(PLANNING_GROUP_ARM);
   moveit::planning_interface::MoveGroupInterface move_group_interface_gripper(PLANNING_GROUP_GRIPPER);
   
+  // Object to add the collision object to the Planning Scene Monitor
+  moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
+
+  // Collision object
+  moveit_msgs::CollisionObject collision_object;
+  collision_object.header.frame_id = move_group_interface_arm.getPlanningFrame();
+
+  collision_object.id = "table";
+
+  shape_msgs::SolidPrimitive primitive;
+  primitive.type = primitive.BOX;
+  primitive.dimensions.resize(3);
+  primitive.dimensions[0] = 2.0;
+  primitive.dimensions[1] = 2.0;
+  primitive.dimensions[2] = 0.05;
+  geometry_msgs::Pose box_pose;
+  box_pose.orientation.w = 1.0;
+  box_pose.position.x = 0.0;
+  box_pose.position.y = 0.0;
+  box_pose.position.z = 0.0;
+  collision_object.primitives.push_back(primitive);
+  collision_object.primitive_poses.push_back(box_pose);
+  collision_object.operation = collision_object.ADD;
+  std::vector<moveit_msgs::CollisionObject> collision_objects;
+  collision_objects.push_back(collision_object);
+  planning_scene_interface.applyCollisionObjects(collision_objects);
+  ros::Duration(2.0).sleep();
+
   // 1. Move to UP position
   ROS_INFO_NAMED("tutorial", "Move UP");
   move_group_interface_arm.setJointValueTarget(move_group_interface_arm.getNamedTargetValues("up"));
@@ -99,6 +131,11 @@ int main(int argc, char** argv)
   move_group_interface_gripper.setJointValueTarget(move_group_interface_gripper.getNamedTargetValues("open"));
   execute_motion(move_group_interface_gripper);
   */
+
+  ROS_INFO_NAMED("tutorial", "Remove the object from the world");
+  std::vector<std::string> object_ids;
+  object_ids.push_back(collision_object.id);
+  planning_scene_interface.removeCollisionObjects(object_ids);
 
   ros::shutdown();
   return 0;
