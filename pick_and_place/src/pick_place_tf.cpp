@@ -53,7 +53,7 @@ int main(int argc, char** argv)
   // The planning_interface:`MoveGroupInterface` class can be easily
   // setup using just the name of the planning group you would like to control and plan for.
   moveit::planning_interface::MoveGroupInterface move_group_interface_arm(PLANNING_GROUP_ARM);
-  move_group_interface_arm.setPlanningTime(10.0); //This shoudl result in better optimized plans 
+  move_group_interface_arm.setPlanningTime(20.0); //This should result in better optimized plans 
 
   // Object to add the collision object to the Planning Scene Monitor
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
@@ -106,14 +106,20 @@ int main(int argc, char** argv)
     geometry_msgs::Pose target_pose1;
     target_pose1.orientation = current_pose.pose.orientation;
     target_pose1.position.x = transformStamped.transform.translation.x;
-    target_pose1.position.y = transformStamped.transform.translation.y;
-    target_pose1.position.z = transformStamped.transform.translation.z + 0.20;
+    target_pose1.position.y = transformStamped.transform.translation.y - 0.25;
+    target_pose1.position.z = transformStamped.transform.translation.z - 0.05;
 
     std::cout<<"Desired pose :: x: "<<target_pose1.position.x<<"y: "<<target_pose1.position.y<<"z: "<<target_pose1.position.z<<"\n";
     move_group_interface_arm.setPoseTarget(target_pose1);
     execute_motion(move_group_interface_arm);
     ros::Duration(1.0).sleep();
-    ROS_INFO_NAMED("tutorial", "End motion");
+    
+    // Move to UP position
+    ROS_INFO_NAMED("tutorial", "Move UP");
+    move_group_interface_arm.setJointValueTarget(move_group_interface_arm.getNamedTargetValues("up"));
+    execute_motion(move_group_interface_arm);
+    ros::Duration(1.0).sleep();
+    
   }
 
 //   ROS_INFO_NAMED("tutorial", "Remove the object from the world");
