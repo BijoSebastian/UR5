@@ -53,7 +53,8 @@ int main(int argc, char** argv)
   // The planning_interface:`MoveGroupInterface` class can be easily
   // setup using just the name of the planning group you would like to control and plan for.
   moveit::planning_interface::MoveGroupInterface move_group_interface_arm(PLANNING_GROUP_ARM);
-  
+  move_group_interface_arm.setPlanningTime(10.0); //This shoudl result in better optimized plans 
+
   // Object to add the collision object to the Planning Scene Monitor
   moveit::planning_interface::PlanningSceneInterface planning_scene_interface;
 
